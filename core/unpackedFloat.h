@@ -405,7 +405,18 @@ namespace symfpu {
     }
 #endif
 
-    
+    prop fix_sign_exp(const fpt &format, const unpackedFloat<t> &fp_val) {
+      bwt exWidth = exponentWidth(format);
+      bwt sigWidth = significandWidth(format);
+
+      PRECONDITION((exWidth == exponent.getWidth()) &&
+                  (sigWidth == significand.getWidth()));
+      
+      prop fix_sign(sign == fp_val.sign);
+      prop fix_exp(exponent == fp_val.exponent);
+
+      return (fix_sign && fix_exp);
+    }
 
     // Is a well formed unpacked struct of the given format?
     // The format is needed to ensure that subnormals are correct.
